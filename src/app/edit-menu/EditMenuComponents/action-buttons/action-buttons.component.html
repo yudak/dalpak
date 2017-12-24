@@ -1,0 +1,63 @@
+
+<TAble>
+  <tr>
+    <td>
+      <button *ngIf="!Selected" class="btn btn-primary" (click)="SetAction('NewFolder');open(Folde)"> תיקייה חדשה</button>
+      <button *ngIf="Selected == 'Folder' " class="btn btn-primary" (click)="SetAction('InsertToFolder')"> כנס לתיקיה</button>
+    
+    </td>
+    <td>
+      <button *ngIf="!Selected" class="btn btn-primary" (click)="SetAction('NewItem');open(Item)"> מוצר חדש</button>
+      <button *ngIf="Selected == 'Folder'" class="btn btn-primary" (click)="SetAction('EditFolder');open(Folde)"> ערוך תיקיה</button>
+      <button *ngIf="Selected == 'Item'" class="btn btn-primary" (click)="SetAction('EditItem');open(Item)"> ערוך מוצר</button>
+    </td>
+    <td>
+        <button *ngIf="Selected == 'Folder'" class="btn btn-primary" (click)="SetAction('DeleteFolder')"> מחק תיקיה</button>
+        <button *ngIf="Selected == 'Item'" class="btn btn-primary" (click)="SetAction('DeleteItem')"> מחק מוצר</button>
+    </td>
+    <td></td>
+    <td></td> 
+  </tr>
+  <tr>
+      <td></td>
+      <td>  </td>
+      <td></td>
+      <td></td>
+      <td></td> 
+    </tr>
+</TAble>
+
+
+<ng-template #Folde let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title">תיקיה חדשה</h4>
+    </div>
+    <div class="modal-body">
+        <setup-folder (Close)="c($event)" [IdNumber]="IdNumber" ></setup-folder>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')" >Close</button>
+    </div>
+  </ng-template>
+
+  <ng-template #Item let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">מוצר חדש</h4>
+      </div>
+      <div class="modal-body">
+          <setup-item (Close)="c($event)" [IdNumber]="IdNumber" ></setup-item>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+      </div> -->
+  </ng-template>
+
+    

@@ -1,0 +1,15 @@
+.SummerySurfes{
+    display: inline-flex;
+    text-align: right;
+}
+.Summery{
+    width: 25vw;
+    height: 90vh;
+    background: lightskyblue;
+}
+.OrderItem{
+    margin: 10px;
+}
+.ItemTosefet{
+    margin: 10px;
+}

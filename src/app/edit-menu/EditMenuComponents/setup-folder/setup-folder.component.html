@@ -1,0 +1,17 @@
+<form >
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <label for="InputText">שם תיקייה</label>
+        <input name="FolderName" type="text" class="form-control" id="InputText" aria-describedby="nameHelp" placeholder="שם תיקייה" [(ngModel)]="FolderName" >
+        <small id="nameHelp" class="form-text text-muted"></small>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="InputColor">צבע תיקייה</label>
+        <!-- value="#008000" -->
+        <input name="FolderColor" type="color" class="form-control" id="InputColor" style="height: 38px;"  [(ngModel)]="FolderColor" >
+      </div>
+    </div>
+    <button *ngIf="!IdNumber" type="submit" class="btn btn-success" (click)="SaveNewFolder()" >שמור</button>
+    <button *ngIf="IdNumber" type="submit" class="btn btn-success" (click)="UpdateFolder()" >עדכן</button>
+    <button type="submit" class="btn btn-danger" (click)="CloseMe()">בטל</button>
+  </form>

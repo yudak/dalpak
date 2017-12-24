@@ -1,0 +1,15 @@
+<div class="SummerySurfes">
+    <order-bord (OrderItemSaved)="OrederUpdate($event)"></order-bord>
+    <!-- <order-summery></order-summery> -->
+    <div class="Summery">
+      <div class="OrderItem" *ngFor="let item of Orders" >
+        {{item.Item.Text}}
+        <div class="ItemTosefet" *ngFor="let tosefet of item.Tosafot">
+          {{tosefet.Tosefet.Text}}
+        </div>
+
+      </div>
+    </div>
+</div>
+
+

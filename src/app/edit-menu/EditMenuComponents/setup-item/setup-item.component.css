@@ -1,0 +1,8 @@
+label {
+    Float: right;
+}
+.tosafot{
+    height: 30vh;
+    overflow-y: auto;
+    padding-bottom: 5PX;
+}

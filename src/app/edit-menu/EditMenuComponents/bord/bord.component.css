@@ -1,0 +1,21 @@
+
+.flex-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: baseline;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+
+  }
+
+.BordSurface{
+    width: 70vw;
+    height: 70vh;
+    background-color: #ccc;
+    overflow-y: auto;
+}
+.links{
+    display: table;
+}

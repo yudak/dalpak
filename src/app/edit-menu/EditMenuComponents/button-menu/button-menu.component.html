@@ -1,0 +1,14 @@
+<!-- [@clickedState]="clickedState" -->
+<div class="ButtonSurface" [@clickedState]="clickedState" [ngClass]="{'clicked': Folder.IsClicked,'SetupPosition':IsSetupPosition&&!Folder.IsClicked}" (click)="ClickEvent()" >
+    <!-- <div class="BackgroudImg"></div> -->
+    <div class="ButtonBody" [ngClass]="Folder.Type" >
+      <div *ngIf="Folder.Price" class="ButtonPrice">{{Folder.Price}}</div>
+      <div class="ButtonLable" [ngClass]="{'ButtonLableFolder':Folder.Type === 'Folder'}"  >
+        <!-- <span *ngIf="IsSetupPosition"> {{Position}}  </span> -->
+        <!-- <span *ngIf="!IsSetupPosition"> {{Text}}  </span> -->
+        {{Folder.Text}} 
+      </div>
+  
+    </div>
+    
+</div>

@@ -1,0 +1,26 @@
+<div class="links"><button *ngFor="let p of path"  type="button" class="btn btn-primary btn-md" (click)="GoTo(p.Perant)" >{{p.FolderNmae}}</button></div> 
+<div class="BordSurface flex-container">
+    
+  <button-menu (click)="open(AddOrderItem)" [ngStyle]="{ 'background-color': folder.Color}" *ngFor="let folder of forldes" (ClickedID)="NowClick($event)" [Folder]="folder" ></button-menu>
+
+
+</div>
+
+
+<ng-template #AddOrderItem let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title">{{OrderItem.Item.Text}}</h4>
+      <h4 class="modal-title">{{OrderItem.Item.Price}}</h4>
+    </div>
+    <div class="modal-body">
+        <order-item-view [Tosafot]="OrderItem.Tosafot" ></order-item-view>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">בטל</button>
+      <button type="button" class="btn btn-outline-dark" (click)="c('Save click');Saved()">שמור</button>
+    </div>
+</ng-template>

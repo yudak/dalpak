@@ -1,0 +1,11 @@
+:host table{
+    width: 100%;
+    background-color: orange;
+    height: 10vh;
+}
+td{
+    width: 20%;
+}
+button{
+   width: 100%
+}
