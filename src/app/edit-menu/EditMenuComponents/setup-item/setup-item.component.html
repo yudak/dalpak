@@ -1,38 +1,45 @@
 <form >
   <div class="form-row" >
     <div class="btn-group" role="group" aria-label="Basic example" style="direction: ltr">
-        <button type="button" class="btn btn-info" (click)="ItemType='Pizza'" [ngClass]="{'active': ItemType=='Pizza'}" >פיצות</button>
+        <button type="button" class="btn btn-info" (click)="ItemType='Food'" [ngClass]="{'active': ItemType=='Pizza'}" >פיצות</button>
         <button type="button" class="btn btn-info" (click)="ItemType='Drink'" [ngClass]="{'active': ItemType=='Drink'}">שתיה</button>
-        <button type="button" class="btn btn-info" (click)="ItemType='Extra'" [ngClass]="{'active': ItemType=='Extra'}">מנות נוספות</button>
+        <button type="button" class="btn btn-info" (click)="ItemType='AdditionalOffer'" [ngClass]="{'active': ItemType=='Extra'}">מנות נוספות</button>
       </div>
   </div>
   <div class="form-row">
-    <div class="form-group col-md-8">
+    <div class="form-group col-md-6">
       <label for="InputText">שם מוצר</label>
       <input name="ItemName" type="text" class="form-control" id="InputText" aria-describedby="nameHelp" placeholder="שם מוצר" [(ngModel)]="ItemName" >
       <small id="nameHelp" class="form-text text-muted"></small>
     </div>
-    <div class="form-group col-md-4">
-      <label for="InputColor">מחיר </label>
-      <!-- value="#008000" -->
-      <input name="ItemPraice" type="number" min="0" class="form-control" id="InputColor"  placeholder=" מחיר"  [(ngModel)]="ItemPraice" >
+    <div class="form-group col-md-3">
+      <label for="InputColor"> מחיר אתר</label>
+      <input name="ItemPraiceWeb" type="number" min="0" class="form-control" id="InputColor"  placeholder=" מחיר"  [(ngModel)]="ItemPraiceWeb" >
+    </div>
+    <div class="form-group col-md-3">
+      <label for="InputColor">מחיר דלפק </label>
+      <input name="ItemPraiceDaplak" type="number" min="0" class="form-control" id="InputColor"  placeholder=" מחיר"  [(ngModel)]="ItemPraiceDalpak" >
     </div>
   </div>
   <div>
       <h3>תוספות</h3>  
   </div>
   <div class="form-row">
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-5">
         <label for="InputText">תוספת</label>
         <input name="TosefetName" type="text" class="form-control" id="InputText" aria-describedby="nameHelp" placeholder="שם תוספת" [(ngModel)]="TosefetName" >
         <small id="nameHelp" class="form-text text-muted"></small>
       </div>
-      <div class="form-group col-md-3">
-        <label for="InputColor">מחיר </label>
+      <div class="form-group col-md-2">
+        <label for="InputColor">מחיר אתר</label>
         <!-- value="#008000" -->
-        <input name="TosefetPraice" type="number" min="0" class="form-control" id="InputColor"  placeholder=" מחיר"  [(ngModel)]="TosefetPraice" >
+        <input name="TosefetPraiceWeb" type="number" min="0" class="form-control" id="InputColor"  placeholder=" מחיר"  [(ngModel)]="TosefetPraiceWeb" >
       </div>
-
+      <div class="form-group col-md-2">
+        <label for="InputColor">מחיר דלפק</label>
+        <!-- value="#008000" -->
+        <input name="TosefetPraiceDalpak" type="number" min="0" class="form-control" id="InputColor"  placeholder=" מחיר"  [(ngModel)]="TosefetPraiceDalpak" >
+      </div>
       <div class="form-group col-md-3">
           <label for="InputColor" style="opacity: 0" >aa </label>
           <button  type="submit" id="InputColor" class="btn btn-success form-control" (click)="SaveNewTosefet()" >הוסף תוספת</button>

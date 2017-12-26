@@ -1,6 +1,6 @@
-<menu-bord (NowClick1)="SelectedItem($event)" [Action]="Action" ></menu-bord>
-<action-buttons (Action)="DoAction($event)" [SelectedType]="SelectedType" ></action-buttons>
-
+<menu-bord  (NowClick1)="SelectedItem($event)" [Action]="Action" ></menu-bord>
+<action-buttons  (Action)="DoAction($event)" [SelectedType]="SelectedType" ></action-buttons>
+<div *ngIf="Loading"  class="loader"></div>
 
 
 

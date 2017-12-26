@@ -3,17 +3,17 @@
   <tr>
     <td>
       <button *ngIf="!Selected" class="btn btn-primary" (click)="SetAction('NewFolder');open(Folde)"> תיקייה חדשה</button>
-      <button *ngIf="Selected == 'Folder' " class="btn btn-primary" (click)="SetAction('InsertToFolder')"> כנס לתיקיה</button>
+      <button *ngIf="Selected == 'folder' " class="btn btn-primary" (click)="SetAction('InsertToFolder')"> כנס לתיקיה</button>
     
     </td>
     <td>
       <button *ngIf="!Selected" class="btn btn-primary" (click)="SetAction('NewItem');open(Item)"> מוצר חדש</button>
-      <button *ngIf="Selected == 'Folder'" class="btn btn-primary" (click)="SetAction('EditFolder');open(Folde)"> ערוך תיקיה</button>
-      <button *ngIf="Selected == 'Item'" class="btn btn-primary" (click)="SetAction('EditItem');open(Item)"> ערוך מוצר</button>
+      <button *ngIf="Selected == 'folder'" class="btn btn-primary" (click)="SetAction('EditFolder');open(Folde)"> ערוך תיקיה</button>
+      <button *ngIf="Selected == 'item'" class="btn btn-primary" (click)="SetAction('EditItem');open(Item)"> ערוך מוצר</button>
     </td>
     <td>
-        <button *ngIf="Selected == 'Folder'" class="btn btn-primary" (click)="SetAction('DeleteFolder')"> מחק תיקיה</button>
-        <button *ngIf="Selected == 'Item'" class="btn btn-primary" (click)="SetAction('DeleteItem')"> מחק מוצר</button>
+        <button *ngIf="Selected == 'folder'" class="btn btn-primary" (click)="SetAction('DeleteFolder')"> מחק תיקיה</button>
+        <button *ngIf="Selected == 'item'" class="btn btn-primary" (click)="SetAction('DeleteItem')"> מחק מוצר</button>
     </td>
     <td></td>
     <td></td> 

@@ -3,9 +3,9 @@
 <button type="button" class="btn btn-primary btn-md" (click)="GetData()" >Get Data</button>
 <div class="BordSurface flex-container">
     
-  <button-menu [ngStyle]="{ 'background-color': folder.Color}" *ngFor="let folder of forldes" (IClicked)="NowClick($event)" [Folder]="folder" [Position]="folder.Position" [IsSetupPosition]="IsSetupPosition"></button-menu>
+  <button-menu [ngStyle]="{ 'background-color': folder.Color,'opacity':Loading ? 0 : 1 }" *ngFor="let folder of forldes" (IClicked)="NowClick($event)" [Folder]="folder" [Position]="folder.Position" [IsSetupPosition]="IsSetupPosition"></button-menu>
   <!-- <button-menu [ngStyle]="{ 'background-color': folder.Color}" *ngFor="let folder of forldes" (IClicked)="NowClick($event)" [IsClicked]="folder.IsClicked" [Position]="folder.Position" [Type]="folder.Type" [Price]="folder.Price"  [Text]="folder.Text"  [IsSetupPosition]="IsSetupPosition"></button-menu> -->
 
-
+  
 </div>
 

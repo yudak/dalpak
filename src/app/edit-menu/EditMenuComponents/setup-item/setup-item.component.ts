@@ -13,11 +13,14 @@ export class SetupItemComponent implements OnInit {
   @Input() IdNumber;
   @Output() Close = new EventEmitter<string>();
   number = 0;
-  ItemPraice = 0;
+  ItemPraiceWeb = 0;
+  ItemPraiceDalpak = 0;
   ItemName;
   ItemType;
 
-  TosefetPraice = 0;
+
+  TosefetPraiceWeb = 0;
+  TosefetPraiceDalpak = 0;
   TosefetName;
 
   constructor(private forldesService:GetFoldersServiceService) {
@@ -29,13 +32,13 @@ export class SetupItemComponent implements OnInit {
   }
 
   SaveNewItem(){
-    this.forldesService.NewItem(this.ItemName,this.ItemPraice)
+    this.forldesService.NewItem(this.ItemName,this.ItemPraiceWeb,this.ItemPraiceDalpak,this.ItemType)
     this.number++;
     this.Close.emit("Saved"+this.number);
   }
 
   UpdateItem(){
-    this.forldesService.UpdateItem(this.IdNumber,this.ItemName,this.ItemPraice)
+    this.forldesService.UpdateItem(this.IdNumber,this.ItemName,this.ItemPraiceWeb,this.ItemPraiceDalpak)
     this.number++;
     this.Close.emit("Saved"+this.number);
   }
@@ -49,12 +52,13 @@ export class SetupItemComponent implements OnInit {
     if(changes.IdNumber && this.IdNumber){
       var updateFolder = this.forldesService.getFolderFromID(this.IdNumber);
       this.ItemName = updateFolder.Text;
-      this.ItemPraice = updateFolder.Price;
+      this.ItemPraiceWeb = updateFolder.PriceWeb;
+      this.ItemPraiceDalpak = updateFolder.PriceDalpak;
     } 
   }
 
   SaveNewTosefet(){
-    this.forldesService.NewTosefet(this.IdNumber,this.TosefetName,this.TosefetPraice);
+    this.forldesService.NewTosefet(this.IdNumber,this.TosefetName,this.TosefetPraiceWeb,this.TosefetPraiceDalpak);
     this.getTosefet();
   }
 

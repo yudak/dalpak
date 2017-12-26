@@ -12,7 +12,7 @@ export class SetupFolderComponent implements OnInit {
   @Output() Close = new EventEmitter<string>();
   FolderName:string;
   FolderColor = "#008000";
-
+  FolderPosition ;
   number=0;
 
   constructor(private forldesService:GetFoldersServiceService) {
@@ -30,7 +30,7 @@ export class SetupFolderComponent implements OnInit {
   }
 
   UpdateFolder(){
-    this.forldesService.UpdateFolder(this.IdNumber,this.FolderName,this.FolderColor)
+    this.forldesService.UpdateFolder(this.IdNumber,this.FolderName,this.FolderColor,this.FolderPosition)
     this.number++;
     this.Close.emit("Saved"+this.number);
   }
@@ -43,8 +43,10 @@ export class SetupFolderComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if(changes.IdNumber && this.IdNumber){
       var updateFolder = this.forldesService.getFolderFromID(this.IdNumber);
+      console.log(updateFolder)
       this.FolderName = updateFolder.Text;
       this.FolderColor = updateFolder.Color;
+      this.FolderPosition = updateFolder.Position;
     } 
   }
 

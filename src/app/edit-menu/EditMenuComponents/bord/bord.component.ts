@@ -12,7 +12,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 
 export class BordComponent implements OnInit {
-   forldes:Folders[] = []
+  Loading: boolean;
+  forldes: Folders[] = []
    forldesNew:Folders[] = []
    IsSetupPosition = false;
    Selected = -1;
@@ -26,6 +27,11 @@ export class BordComponent implements OnInit {
       this.forldes = folders;
       console.log(folders)
     })
+    forldesService.loading.subscribe(isLoading => {
+      this.Loading = isLoading
+      console.log(this.Loading)
+    
+    })
    }
 
    getFolders(parent:number):void{
@@ -36,6 +42,7 @@ export class BordComponent implements OnInit {
 
    GoTo(parent){
      console.log(parent)
+     this.forldesService.Refresh(parent)
      var found = false;
      var newpath = [];
      this.path.forEach(element => {
@@ -85,6 +92,8 @@ export class BordComponent implements OnInit {
       this.forldes[this.Selected].IsClicked = false;
       this.forldes[event].Position = event;
       this.forldes[this.Selected].Position = this.Selected;
+      this.forldesService.ReplaePosition(this.forldes[this.Selected],this.forldes[event])
+      // this.forldesService.UpdateFolder(this.forldes[event].IdNumber,this.forldes[event].Text,this.forldes[event].Color,this.forldes[event].Position)
       this.clear_clicks();
 
     }
@@ -98,15 +107,18 @@ export class BordComponent implements OnInit {
     if ((""+changes.Action.currentValue).includes("InsertToFolder")){
       this.path.push({Perant:this.forldes[this.Selected].IdNumber ,FolderNmae:this.forldes[this.Selected].Text})
       this.forldesService.SetCurrentFolderId(this.forldes[this.Selected].IdNumber)
-      //this.forldes = this.forldesService.GetFolders(this.forldesService.currentPerantId)
+      this.forldesService.Refresh(this.forldes[this.Selected].IdNumber)
+     //this.forldes = this.forldesService.GetFolders(this.forldesService.currentPerantId)
+      //this.forldesService.Refresh(this.forldesService.currentPerantId)
       this.clear_clicks();
     }else if((""+changes.Action.currentValue).includes("DeleteFolder")){
-      this.forldes = this.forldesService.DeleteFolder(this.forldes[this.Selected].IdNumber  );
+      this.forldesService.DeleteFolder(this.forldes[this.Selected].IdNumber  );
       this.IsSetupPosition = false;
       this.Selected = -1;
       this.clear_clicks();
     }else if((""+changes.Action.currentValue).includes("DeleteItem")){
-     // this.forldes = this.forldesService.DeleteItem(this.forldes[this.Selected].IdNumber  );
+      this.forldes = this.forldesService.DeleteItem(this.forldes[this.Selected].IdNumber  );
+      this.forldesService.Refresh(this.forldesService.currentPerantId)
       this.IsSetupPosition = false;
       this.Selected = -1;
       this.clear_clicks();
@@ -120,9 +132,11 @@ export class BordComponent implements OnInit {
     }else if((""+changes.Action.currentValue).includes("Refresh")){
       console.log(this.forldes)
      // this.forldes = this.forldesService.GetFolders(this.forldesService.currentPerantId)
+      //this.forldesService.Refresh(this.forldesService.currentPerantId)
       this.clear_clicks();
       console.log(this.forldes)
     }
+    
   }
   clear_clicks(){
    // this.forldes = this.forldesService.GetFolders(this.forldesService.currentPerantId)

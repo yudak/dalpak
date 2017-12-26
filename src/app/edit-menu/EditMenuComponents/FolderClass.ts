@@ -3,7 +3,8 @@ export class Folders {
       Position: number;
       Color;
       Text:string ;
-      Price: number;
+      PriceWeb: number;
+      PriceDalpak: number;
       LinkToDesktop:boolean;
       IsClicked:boolean;
       Perant: number;

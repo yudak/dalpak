@@ -23,6 +23,10 @@ export class OrderBordComponent implements OnInit {
   @Output() OrderItemSaved = new EventEmitter<any>();
   constructor(private forldesService:GetFoldersServiceService,public dialog: MatDialog,private modalService: NgbModal) { 
     this.path.push({Perant:0 ,FolderNmae:"ראשי"})
+    forldesService.items.subscribe(folders => {
+      this.forldes = folders;
+      console.log(folders)
+    })
   }
 
   ngOnInit() {
@@ -30,7 +34,7 @@ export class OrderBordComponent implements OnInit {
   }
 
   getFolders(parent:number):void{
-    this.forldes = this.forldesService.GetFolders(parent);
+   // this.forldes = this.forldesService.GetFolders(parent);
   }
   GoTo(parent){
     console.log(parent)

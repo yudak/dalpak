@@ -14,6 +14,9 @@ export class GetFoldersServiceService {
   
   public readonly items: Observable<Array<Folders>> = this._items.asObservable();
 
+  private _loading: BehaviorSubject<boolean> = new BehaviorSubject(null)
+  public readonly loading: Observable<boolean> = this._loading.asObservable();
+
   constructor(private http:HttpClient) {
     if (this.forldes){
       this.forldes = this.build_folder_arry();
@@ -51,24 +54,50 @@ export class GetFoldersServiceService {
    }
 
    public Refresh(parent){
+     this._loading.next(true)
     var forldes = this.build_folder_arry()
-    this.http.get('https://us-central1-bring-112b3.cloudfunctions.net/GetFolders')
+    this.http.get('https://us-central1-bring-112b3.cloudfunctions.net/GetFolderItems?folder=' + parent )
     .subscribe(data => {
-       console.log(data["folders"]);
-       this.forldes = this.build_folder_arry()
-       var num = 0
-       data["folders"].forEach(f => {
-         var tmp:Folders = new Folders();
-         tmp.Color = f.color;
-         tmp.Text = f.name;
-         tmp.IdNumber =f.id;
-         tmp.Position = f.position;
-         tmp.Perant = f.father_id;
-         tmp.Type = "Folder"
-         this.forldes[f.position] = tmp;
+      console.log(data);
+      this.forldes = this.build_folder_arry()
+      if (data["status"]){
+        console.log(data["items"]);
         
-       });
+        var num = 0
+        data["items"].forEach(f => {
+          var tmp:Folders = new Folders();
+          tmp.Color = f.color;
+          tmp.Text = f.name;
+          tmp.IdNumber =f.id;
+          tmp.Position = f.position;
+          tmp.Perant = f.father_id;
+          tmp.Type = f.type,
+          tmp.PriceWeb = f.price,
+          tmp.PriceDalpak= f.price_dalpak,
+          this.forldes[f.position] = tmp;
+          
+        });
+      }
+      //  this.http.get('https://us-central1-bring-112b3.cloudfunctions.net/GetFolderItems?folder=' + parent )
+      //  .subscribe(data => {
+      //     console.log(data["items"]);
+      //    // this.forldes = this.build_folder_arry()
+      //     var num = 0
+      //     data["items"].forEach(f => {
+      //       var tmp:Folders = new Folders();
+      //       tmp.Color = f.color;
+      //       tmp.Text = f.name;
+      //       tmp.IdNumber =f.id;
+      //       tmp.Position = f.position;
+      //       tmp.Perant = f.father_id;
+      //       tmp.Type = "items"
+      //       this.forldes[f.position] = tmp;
+           
+      //     });
+      //   });
+       
        this._items.next(this.forldes)
+       this._loading.next(false)
        this.forldes.filter(folder => {
         if (folder.Perant == parent){
          forldes[folder.Position] = folder;
@@ -86,14 +115,21 @@ export class GetFoldersServiceService {
     newFolder.Position = this.get_next_position(this.currentPerantId);
     newFolder.Text = text ;
     newFolder.IdNumber = this.getIDnumber();
-    // this.forldes = this.GetFolders(this.currentPerantId)
-    // this.forldes[newFolder.Position] = newFolder;
-    this.forldes[newFolder.IdNumber] = newFolder;
-    console.log("New folder :" + newFolder.Text )
-    console.log(this.forldes)
-    return this.forldes;
+
+    var body =  '{  "name": "'+ text + '","color": "' + color +'","business": "1", "father_id": "' + this.currentPerantId +'" ,"position": "' + this.get_next_position(this.currentPerantId) + '" }'
+    this.http.post("https://us-central1-bring-112b3.cloudfunctions.net/AddNewFolder" ,body).subscribe(data => {
+      console.log(data)
+      this.Refresh(this.currentPerantId)
+    })
+
+    // // this.forldes = this.GetFolders(this.currentPerantId)
+    // // this.forldes[newFolder.Position] = newFolder;
+    // this.forldes[newFolder.IdNumber] = newFolder;
+    // console.log("New folder :" + newFolder.Text )
+    // console.log(this.forldes)
+    // return this.forldes;
   }
-  public NewItem(text,price){
+  public NewItem(text,priceWeb,priceDalpak,type){
     console.log(this.forldes)
     var newFolder = new Folders();
     newFolder.Perant = this.currentPerantId;
@@ -102,22 +138,36 @@ export class GetFoldersServiceService {
     newFolder.Position = this.get_next_position(this.currentPerantId);
     newFolder.Text = text ;
     newFolder.IdNumber = this.getIDnumber();
-    newFolder.Price = price;
-    // this.forldes = this.GetFolders(this.currentPerantId)
-    // this.forldes[newFolder.Position] = newFolder;
-    this.forldes[newFolder.IdNumber] = newFolder;
-    console.log("New Item :" + newFolder.Text )
-    console.log(this.forldes)
-    return this.forldes;
+    newFolder.PriceWeb = priceWeb;
+    newFolder.PriceDalpak = priceDalpak;
+    var body =  '{  "name": "'+ text + '","business": "1", "parent_folder": "' + this.currentPerantId +'" ,"position": "' + this.get_next_position(this.currentPerantId) +
+     '","web_price":"'+ priceWeb +'","dalpak_price":"'+ priceDalpak +'","type":"' + type + '" }'
+    this.http.post("https://us-central1-bring-112b3.cloudfunctions.net/AddNewItem" ,body).subscribe(data => {
+      console.log(data)
+      this.Refresh(this.currentPerantId)
+    })
+    // // this.forldes = this.GetFolders(this.currentPerantId)
+    // // this.forldes[newFolder.Position] = newFolder;
+    // this.forldes[newFolder.IdNumber] = newFolder;
+    // console.log("New Item :" + newFolder.Text )
+    // console.log(this.forldes)
+    // return this.forldes;
   }
   
 
   public DeleteFolder(Position:number){
-    var tmp:Folders = new Folders()
-    tmp.Type = "Empty";
-    tmp.Position = Position;
-    this.forldes[Position]= tmp;
-    return this.forldes;
+    // var tmp:Folders = new Folders()
+    // tmp.Type = "Empty";
+    // tmp.Position = Position;
+    // this.forldes[Position]= tmp;
+    // return this.forldes;
+
+    var body =  '{"business_id": "1", "folder_id": "' + Position +'"}'
+    this._loading.next(true);
+    this.http.post("https://us-central1-bring-112b3.cloudfunctions.net/DeleteFolder" ,body).subscribe(data => {
+      console.log(data)
+      this.Refresh(this.currentPerantId)
+    })
   }
   public DeleteItem(Position:number){
     var tmp:Folders = new Folders()
@@ -141,7 +191,8 @@ export class GetFoldersServiceService {
       var newFolder = new Folders();
       newFolder.Position = index;
       newFolder.Type = "Empty";
-      newFolder.Price = null;
+      newFolder.PriceWeb = null;
+      newFolder.PriceDalpak = null;
       newFolder.Text = null;
       forldes.push(newFolder);   
     }
@@ -158,20 +209,66 @@ export class GetFoldersServiceService {
   }
 
   getFolderFromID(ID){
-    return this.forldes[ID];
+    //return this.forldes[ID];
+    return this.GetFolders(this.currentPerantId).find(folder => folder.IdNumber === ID );
   }
 
-  UpdateFolder(ID,text,color){
+  UpdateFolder(ID,text,color,position){
+    // this.forldes[ID].Text = text;
+    // this.forldes[ID].Color = color;
+    this._loading.next(true);
+    var body =  '{  "name": "'+ text + '","color": "' + color +'","business": "1", "folder": "' + ID +'" ,"position": "' + position + '" }'
+    this.http.post("https://us-central1-bring-112b3.cloudfunctions.net/EditFolder" ,body).subscribe(data => {
+      console.log(data)
+      this.Refresh(this.currentPerantId)
+    })
+
+  }
+  UpdateItem(ID,text,priceWeb,priceDalpak){
     this.forldes[ID].Text = text;
-    this.forldes[ID].Color = color;
+    this.forldes[ID].PriceWeb = priceWeb;
+    this.forldes[ID].PriceDalpak = priceDalpak;
   }
-  UpdateItem(ID,text,price){
-    this.forldes[ID].Text = text;
-    this.forldes[ID].Price = price;
+
+  ReplaePosition(Item1:Folders,Item2:Folders){
+    // this.forldes[ID].Text = text;
+    // this.forldes[ID].Color = color;
+    this._loading.next(true);
+    if(Item1.Type != "Empty"){
+      var body =  '{  "name": "'+ Item1.Text + '","color": "' + Item1.Color +'","business": "1", "folder": "' + Item1.IdNumber +'" ,"position": "' + Item1.Position + '" }'
+      this.http.post("https://us-central1-bring-112b3.cloudfunctions.net/EditFolder" ,body).subscribe(data => {
+        console.log(data)
+        if(Item2.Type != "Empty"){
+          var body =  '{  "name": "'+ Item2.Text + '","color": "' + Item2.Color +'","business": "1", "folder": "' + Item2.IdNumber +'" ,"position": "' + Item2.Position + '" }'
+          this.http.post("https://us-central1-bring-112b3.cloudfunctions.net/EditFolder" ,body).subscribe(data => {
+            console.log(data)
+            
+          })  
+        }
+        this.Refresh(this.currentPerantId)
+      })
+    }else{
+      if(Item2.Type != "Empty"){
+        var body =  '{  "name": "'+ Item2.Text + '","color": "' + Item2.Color +'","business": "1", "folder": "' + Item2.IdNumber +'" ,"position": "' + Item2.Position + '" }'
+        this.http.post("https://us-central1-bring-112b3.cloudfunctions.net/EditFolder" ,body).subscribe(data => {
+          console.log(data)
+          if(Item1.Type != "Empty"){
+            var body =  '{  "name": "'+ Item1.Text + '","color": "' + Item1.Color +'","business": "1", "folder": "' + Item1.IdNumber +'" ,"position": "' + Item1.Position + '" }'
+            this.http.post("https://us-central1-bring-112b3.cloudfunctions.net/EditFolder" ,body).subscribe(data => {
+              console.log(data)
+              
+            })
+          }
+          this.Refresh(this.currentPerantId)
+        })
+  
+      }
+    }
+
   }
 
 
-  public NewTosefet(ID,text,price){
+  public NewTosefet(ID,text,priceWeb,priceDalpak){
     console.log(this.forldes)
     var newFolder = new Folders();
     newFolder.Perant = ID;
@@ -180,7 +277,8 @@ export class GetFoldersServiceService {
     newFolder.Position = this.get_next_position(this.currentPerantId);
     newFolder.Text = text ;
     newFolder.IdNumber = this.getIDnumber();
-    newFolder.Price = price;
+    newFolder.PriceWeb = priceWeb;
+    newFolder.PriceDalpak = priceDalpak;
     // this.forldes = this.GetFolders(this.currentPerantId)
     // this.forldes[newFolder.Position] = newFolder;
     this.forldes[newFolder.IdNumber] = newFolder;

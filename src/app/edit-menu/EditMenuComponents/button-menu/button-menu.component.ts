@@ -39,6 +39,7 @@ export class ButtonMenuComponent implements OnInit {
   }
 
   ClickEvent(){
+    console.log(this.Folder)
     if (this.Folder.Type != "Empty" || this.IsSetupPosition) {
       this.Folder.IsClicked = !this.Folder.IsClicked;
       if (!this.Folder.IsClicked){
@@ -47,7 +48,7 @@ export class ButtonMenuComponent implements OnInit {
         this.clickedState = "clicked"
       }
       this.IClicked.emit(this.Folder.Position);
-      this.ClickedID.emit(this.Folder.IdNumber);
+      this.ClickedID.emit(this.Folder.Position);
     }
 
   }

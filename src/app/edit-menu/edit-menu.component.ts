@@ -12,7 +12,14 @@ export class EditMenuComponent implements OnInit {
   SelectedType: any;
   Selected = -1;
   closeResult: string;
-  constructor(private forldesService:GetFoldersServiceService) { }
+  Loading = true;
+  constructor(private forldesService:GetFoldersServiceService) {
+    forldesService.loading.subscribe(isLoading => {
+      this.Loading = isLoading
+      console.log(this.Loading)
+    
+    })
+   }
   Action;
   ngOnInit() {
   }
